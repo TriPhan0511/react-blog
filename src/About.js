@@ -2,8 +2,9 @@ import React from 'react'
 
 const About = () => {
   return (
-    <main>
-      <h1>About</h1>
+    <main className='About'>
+      <h2>About Me</h2>
+      <p style={{ marginTop: '1rem' }}>My name's Tri Phan and I'm a web developer.</p>
     </main>
   )
 }
