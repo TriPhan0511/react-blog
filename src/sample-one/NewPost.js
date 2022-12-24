@@ -1,13 +1,24 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
+import BlogContext from './blogContext'
 
-const NewPost = ({ postTitle, setPostTitle, postBody, setPostBody, addPost }) => {
+const NewPost = ({ addPost }) => {
+  const {
+    state: { postTitle, postBody },
+    dispatch,
+  } = useContext(BlogContext)
   const navigate = useNavigate()
   const handleSubmit = (e) => {
     e.preventDefault()
     addPost(postTitle, postBody)
-    setPostTitle('')
-    setPostBody('')
+    dispatch({
+      type: 'setPostTitle',
+      payload: '',
+    })
+    dispatch({
+      type: 'setPostBody',
+      payload: '',
+    })
     navigate('/')
   }
   return (
@@ -20,14 +31,24 @@ const NewPost = ({ postTitle, setPostTitle, postBody, setPostBody, addPost }) =>
           id='postTitle'
           required
           value={postTitle}
-          onChange={(e) => setPostTitle(e.target.value)}
+          onChange={(e) =>
+            dispatch({
+              type: 'setPostTitle',
+              payload: e.target.value,
+            })
+          }
         />
         <label htmlFor='postBody'>Post:</label>
         <textarea
           id='postBody'
           required
           value={postBody}
-          onChange={(e) => setPostBody(e.target.value)}
+          onChange={(e) =>
+            dispatch({
+              type: 'setPostBody',
+              payload: e.target.value,
+            })
+          }
         />
         <button type='submit'>Submit</button>
       </form>

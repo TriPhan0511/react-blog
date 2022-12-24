@@ -1,7 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
+import BlogContext from './blogContext'
 
-const Nav = ({ filter, setFilter }) => {
+const Nav = () => {
+  const {
+    state: { filter },
+    dispatch,
+  } = useContext(BlogContext)
   return (
     <nav className='Nav'>
       <form className='searchForm' onSubmit={(e) => e.preventDefault}>
@@ -11,7 +16,12 @@ const Nav = ({ filter, setFilter }) => {
           id='search'
           placeholder='Search Post'
           value={filter}
-          onChange={(e) => setFilter(e.target.value)}
+          onChange={(e) => {
+            dispatch({
+              type: 'setFilter',
+              payload: e.target.value,
+            })
+          }}
         />
       </form>
       <ul>
