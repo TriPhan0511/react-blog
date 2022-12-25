@@ -1,7 +1,6 @@
 import { format } from 'date-fns'
 import { apiRequest } from './apiRequest'
-
-const BLOG_API_URL = 'http://localhost:3500/posts'
+import { BLOG_API_URL } from './apiUrls'
 
 export const filterPosts = (posts, filter) =>
   posts.filter(
