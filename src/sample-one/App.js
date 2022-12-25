@@ -6,67 +6,30 @@ import About from './About'
 import Missing from './Missing'
 import NewPost from './NewPost'
 import PostPage from './PostPage'
-import { format } from 'date-fns'
 import BlogContext from './blogContext'
-import blogReducer from './blogReducer'
+import { blogReducer, initialState } from './blogReducer'
+import { fetchData } from './apiRequest'
+import { BLOG_API_URL } from './apiUrls'
 
 const App = () => {
-  const [state, dispatch] = useReducer(blogReducer, {
-    posts: [],
-    filter: '',
-    postTitle: '',
-    postBody: '',
-  })
+  const [state, dispatch] = useReducer(blogReducer, initialState)
 
+  // Load data from server
   useEffect(() => {
-    dispatch({
-      type: 'setPosts',
-      payload: JSON.parse(localStorage.getItem('posts')) || [],
-    })
+    fetchData(BLOG_API_URL, dispatch)
   }, [])
-
-  const reversedPosts = state.posts
-    .filter(
-      (post) =>
-        post.title.toLowerCase().includes(state.filter.toLowerCase()) ||
-        post.body.toLowerCase().includes(state.filter.toLowerCase())
-    )
-    .reverse()
-
-  const updatePosts = (posts) => {
-    dispatch({
-      type: 'setPosts',
-      payload: posts,
-    })
-    localStorage.setItem('posts', JSON.stringify(posts))
-  }
-
-  const addPost = (title, body) => {
-    const id = state.posts?.length ? state.posts[state.posts.length - 1].id + 1 : 1
-    const datetime = format(new Date(), 'MMMM dd, yyyy pp')
-    const updatedPosts = [...state.posts, { id, title, body, datetime }]
-    updatePosts(updatedPosts)
-  }
-
-  const deletePost = (id) => {
-    const updatedPosts = state.posts.filter((post) => post.id !== id)
-    updatePosts(updatedPosts)
-  }
 
   return (
     <div className='App'>
       <BlogContext.Provider value={{ state, dispatch }}>
         <Routes>
           <Route path='/' element={<Layout />}>
-            <Route index element={<Home posts={reversedPosts} />} />
+            <Route index element={<Home />} />
             <Route path='*' element={<Missing />} />
             <Route path='about' element={<About />} />
             <Route path='post'>
-              <Route index element={<NewPost addPost={addPost} />} />
-              <Route
-                path=':id'
-                element={<PostPage posts={state.posts} deletePost={deletePost} />}
-              />
+              <Route index element={<NewPost />} />
+              <Route path=':id' element={<PostPage />} />
             </Route>
           </Route>
         </Routes>
@@ -76,6 +39,89 @@ const App = () => {
 }
 
 export default App
+
+// ------------------------------------------------------------------------
+
+// Uses useReducer() and useContext() hooks
+
+// import React, { useEffect, useReducer } from 'react'
+// import { Routes, Route } from 'react-router-dom'
+// import Home from './Home'
+// import Layout from './Layout'
+// import About from './About'
+// import Missing from './Missing'
+// import NewPost from './NewPost'
+// import PostPage from './PostPage'
+// import { format } from 'date-fns'
+// import BlogContext from './blogContext'
+// import blogReducer from './blogReducer'
+
+// const App = () => {
+//   const [state, dispatch] = useReducer(blogReducer, {
+//     posts: [],
+//     filter: '',
+//     postTitle: '',
+//     postBody: '',
+//   })
+
+//   useEffect(() => {
+//     dispatch({
+//       type: 'setPosts',
+//       payload: JSON.parse(localStorage.getItem('posts')) || [],
+//     })
+//   }, [])
+
+//   const reversedPosts = state.posts
+//     .filter(
+//       (post) =>
+//         post.title.toLowerCase().includes(state.filter.toLowerCase()) ||
+//         post.body.toLowerCase().includes(state.filter.toLowerCase())
+//     )
+//     .reverse()
+
+//   const updatePosts = (posts) => {
+//     dispatch({
+//       type: 'setPosts',
+//       payload: posts,
+//     })
+//     localStorage.setItem('posts', JSON.stringify(posts))
+//   }
+
+//   const addPost = (title, body) => {
+//     const id = state.posts?.length ? state.posts[state.posts.length - 1].id + 1 : 1
+//     const datetime = format(new Date(), 'MMMM dd, yyyy pp')
+//     const updatedPosts = [...state.posts, { id, title, body, datetime }]
+//     updatePosts(updatedPosts)
+//   }
+
+//   const deletePost = (id) => {
+//     const updatedPosts = state.posts.filter((post) => post.id !== id)
+//     updatePosts(updatedPosts)
+//   }
+
+//   return (
+//     <div className='App'>
+//       <BlogContext.Provider value={{ state, dispatch }}>
+//         <Routes>
+//           <Route path='/' element={<Layout />}>
+//             <Route index element={<Home posts={reversedPosts} />} />
+//             <Route path='*' element={<Missing />} />
+//             <Route path='about' element={<About />} />
+//             <Route path='post'>
+//               <Route index element={<NewPost addPost={addPost} />} />
+//               <Route
+//                 path=':id'
+//                 element={<PostPage posts={state.posts} deletePost={deletePost} />}
+//               />
+//             </Route>
+//           </Route>
+//         </Routes>
+//       </BlogContext.Provider>
+//     </div>
+//   )
+// }
+
+// export default App
 // ------------------------------------------------------------------------
 // Uses useState() hook
 // import React, { useState } from 'react'
