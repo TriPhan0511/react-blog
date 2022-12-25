@@ -29,24 +29,6 @@
       "datetime": "November 9, 2022 10:10:10 AM",
       "title": "The Fifth Post",
       "body": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit libero iure dicta dignissimos esse. Molestias neque architecto odio doloribus inventore exercitationem totam tenetur autem consequuntur nihil voluptatibus laudantium, enim nostrum."
-    },
-    {
-      "id": 6,
-      "title": "This is post 8",
-      "body": "988uikuikl",
-      "datetime": "December 25, 2022 11:17:53 AM"
-    },
-    {
-      "id": 7,
-      "title": "This is post 9",
-      "body": "sfdsdfdsf",
-      "datetime": "December 25, 2022 11:21:33 AM"
-    },
-    {
-      "id": 8,
-      "title": "This is post 10",
-      "body": "adsdsd",
-      "datetime": "December 25, 2022 11:23:43 AM"
     }
   ]
 }
