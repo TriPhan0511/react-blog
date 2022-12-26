@@ -134,7 +134,7 @@ body {
   width: 100%;
   flex-grow: 1;
   padding: 1rem;
-  overflow-y: auto;
+  overflow-y: auto; /*Allow a scroll bar appears*/
   background-color: #fff;
 }
 
