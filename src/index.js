@@ -4,7 +4,7 @@ import './index.css'
 import App from './App'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
-// import App from './sample-one/App'
+// import App from './sample-two-axios/App'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
