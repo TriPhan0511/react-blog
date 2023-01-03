@@ -3,7 +3,10 @@ import { Link } from 'react-router-dom'
 import PostContext from '../context/PostContext'
 
 const Header = () => {
-  const { filter, setFilter } = useContext(PostContext)
+  const {
+    state: { filter },
+    dispatch,
+  } = useContext(PostContext)
   return (
     <>
       <header className='Header'>
@@ -17,7 +20,12 @@ const Header = () => {
             id='search'
             placeholder='Search Posts'
             value={filter}
-            onChange={(e) => setFilter(e.target.value)}
+            onChange={(e) =>
+              dispatch({
+                type: 'setFilter',
+                payload: e.target.value,
+              })
+            }
           />
         </form>
         <ul>

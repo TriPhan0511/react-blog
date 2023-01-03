@@ -3,7 +3,9 @@ import PostContext from '../context/PostContext'
 import Post from './Post'
 
 const Feed = () => {
-  const { posts, filter } = useContext(PostContext)
+  const {
+    state: { posts, filter },
+  } = useContext(PostContext)
   const filteredPosts = posts
     .filter((post) => post.title.includes(filter) || post.body.includes(filter))
     .reverse()
