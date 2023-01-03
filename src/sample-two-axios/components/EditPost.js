@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import PostContext from '../context/PostContext'
+import { format } from 'date-fns'
 
 const EditPost = () => {
-  const { posts, setPosts, updatePost } = useContext(PostContext)
+  const { posts, updatePost } = useContext(PostContext)
   const [editTitle, setEditTitle] = useState('')
   const [editBody, setEditBody] = useState('')
   const { id } = useParams()
@@ -18,14 +19,12 @@ const EditPost = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    updatePost(id, editTitle, editBody)
+    const datetime = format(new Date(), 'iiii, MMMM dd, yyyy pp')
+    const post = { id: Number(id), datetime, title: editTitle, body: editBody }
+    updatePost(post)
     setEditTitle('')
     setEditBody('')
   }
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault()
-  //   updatePost(id)
-  // }
 
   return (
     <main className='NewPost'>

@@ -2,11 +2,11 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Home from './components/Home'
 import Layout from './components/Layout'
-import About from './pages/About'
-import Missing from './pages/Missing'
+import About from './components/About'
+import Missing from './components/Missing'
 import PostContext from './context/PostContext'
 import { api } from './api/postOperations'
-import PostPage from './pages/PostPage'
+import PostPage from './components/PostPage'
 import { useNavigate } from 'react-router-dom'
 import { format } from 'date-fns'
 import NewPost from './components/NewPost'
@@ -19,8 +19,6 @@ const App = () => {
   const [filter, setFilter] = useState('')
   const [postTitle, setPostTitle] = useState('')
   const [postBody, setPostBody] = useState('')
-  // const [editTitle, setEditTitle] = useState('')
-  // const [editBody, setEditBody] = useState('')
 
   // Load data
   useEffect(() => {
@@ -61,19 +59,15 @@ const App = () => {
   }
 
   // Update a post
-  const updatePost = async (id, editTitle, editBody) => {
-    const datetime = format(new Date(), 'iiii, MMMM dd, yyyy pp')
-    const post = { id, datetime, title: editTitle, body: editBody }
+  const updatePost = async (post) => {
+    const id = post.id
     try {
       const response = await api.put(`posts/${id}`, post)
-      console.log('🚀 ~ response.data', response.data)
       setPosts(posts.map((post) => (post.id === id ? response.data : post)))
-
-      // setEditTitle('')
-      // setEditBody('')
       navigate('/')
     } catch (error) {}
   }
+
 
   return (
     <PostContext.Provider
